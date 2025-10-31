@@ -51,10 +51,7 @@ const dbUrl =
 
 // Check for successful or failed database connection
 
-mongoose.connect(dbUrl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB Connection ERROR!!"));
