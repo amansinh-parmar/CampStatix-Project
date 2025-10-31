@@ -1,0 +1,105 @@
+<!-- 
+  layout('layouts/boilerplate') is a feature from 'ejs-mate' template engine.
+  It allows this view to extend a base layout called 'boilerplate.ejs', 
+  which typically includes the common HTML structure (head, header, footer, etc.).
+  The content inside this file is injected into the layout’s "body" placeholder.
+-->
+
+
+<% layout('layouts/boilerplate') %> <!-- Use base layout -->
+    <div id="cluster-map" style="margin-right: 40px;"></div>
+
+    <h2 class="text-center">All Campgrounds</h2> <!-- Page title -->
+    <!-- Button to navigate to the page for adding a new campground -->
+    <% if(currentUser){ %>
+        <div class="text-center">
+            <a class="btn btn-warning mb-4" href="/campgrounds/new">ADD CAMPGROUND</a>
+        </div>
+        <% } %>
+            <div class="container offset-md-1 col-12"> <!-- Main container with some margin offset -->
+                <!-- Loop through the 'campgrounds' array passed from the server -->
+                <% for(let campground of campgrounds){ %>
+                    <!-- Bootstrap card component for each campground -->
+                    <!-- Image section of the card -->
+                    <div class="card mb-3 col-9">
+                        <div class="row g-0 align-items-center">
+                            <% if (campground.images && campground.images.length> 0) { %>
+                                <div class="col-md-4">
+                                    <img src="<%=campground.images[0].url%>" class="img-fluid rounded-start"
+                                        style="height: 300px; object-fit: cover;" alt="<%= campground.title %>">
+                                    <% } else { %>
+                                        <img src="https://via.placeholder.com/400x300?text=No+Image"
+                                            class="img-fluid rounded-start" style="height: 300px; object-fit: cover;"
+                                            alt="No image available">
+                                        <% } %>
+                                </div>
+
+                                <!-- 
+                      - src: shows the campground’s image URL
+                      - alt: accessibility, shows title if image fails
+                      - object-fit: cover keeps the image aspect ratio while filling the box 
+                    -->
+
+                                <!-- Content section of the card -->
+                                <div class="col-md-8">
+                                    <div class="card-body p-4">
+                                        <!-- Campground title -->
+                                        <h5 class="card-title mb-1">
+                                            <%= campground.title %>
+                                        </h5>
+
+                                        <!-- Short description -->
+                                        <p class="card-text mb-1">
+                                            <%= campground.description %>
+                                        </p>
+
+                                        <!-- Location of the campground, smaller and muted text -->
+                                        <p class="card-text mb-2">
+                                            <small class="text-muted">
+                                                <%= campground.location %>
+                                            </small>
+                                        </p>
+
+                                        <!-- Button linking to the individual campground’s page -->
+                                        <a class="btn btn-primary btn-sm" href="/campgrounds/<%= campground._id %>">
+                                            View <%= campground.title %>
+                                        </a>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+
+                    <% } %> <!-- End for loop -->
+            </div>
+
+            </div>
+
+            <link href="https://cdn.maptiler.com/maptiler-sdk-js/v1.3.1/maptiler-sdk.css" rel="stylesheet" />
+            <script src="https://cdn.maptiler.com/maptiler-sdk-js/v1.3.1/maptiler-sdk.umd.js"></script>
+
+
+            <script>
+                const maptilerApiKey = "<%= process.env.MAPTILER_API_KEY %>";
+
+                const campgroundsGeoJSON = {
+                    type: "FeatureCollection",
+                    features: <%- JSON.stringify(
+                        campgrounds
+                            .filter(c => c.geometry && Array.isArray(c.geometry.coordinates))
+                            .map(c => ({
+                                type: "Feature",
+                                geometry: c.geometry,
+                                properties: {
+                                    popUpMarkup: `
+    <strong><a href="/campgrounds/${c._id}">${c.title}</a></strong>
+    <p>${c.location}</p>
+  `
+                                }
+                            }))
+                    ) %>
+                }
+            </script>
+
+
+            <script src="/Javascript/clusterMap.js"></script>

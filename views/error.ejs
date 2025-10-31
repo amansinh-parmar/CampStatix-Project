@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate') %>
+    <!-- Using the boilerplate layout to keep consistent styling and structure -->
+
+    <div class="row" style="margin-top: 8rem">
+        <div class="col-6 offset-3">
+            <!-- Bootstrap alert for error messages -->
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">
+                    <!-- Display the error message dynamically -->
+                    <%= err.message %>!
+                </h4>
+                <% if (process.env.NODE_ENV !=="production" ) {%>
+                    <p>
+                        <!-- Display the error stack trace (useful for debugging) -->
+                        <%= err.stack %>
+                    </p>
+                    <% } %>
+            </div>
+        </div>
+    </div>

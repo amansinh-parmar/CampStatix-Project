@@ -1,0 +1,93 @@
+<% layout('layouts/boilerplate') %>
+    <!-- 
+  Extends the base layout 'boilerplate.ejs' using 'ejs-mate'.
+  This ensures consistent site-wide styles and structure.
+-->
+
+    <div class="row">
+
+        <div class="col-md-4 offset-md-4">
+            <!-- Page heading -->
+            <h1 class="text-center mb-3">New Campground</h1>
+            <!-- Center the form with Bootstrap grid (5 columns wide, offset by 4) -->
+
+            <form class=" validated-form" action="/campgrounds" method="post" enctype="multipart/form-data" novalidate>
+                <!-- 
+          The form for creating a new campground:
+          - action="/campground" means form data posts to this route on server
+          - method="post" means it’s a POST request to add data
+          - class "validated-form" hooks into client-side validation (Bootstrap + your validateForm.js)
+          - novalidate disables native HTML validation, so you can use your own script
+        -->
+
+                <!-- Title input -->
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" name="campground[title]" id="title" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+
+                <!-- Location input -->
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location</label>
+                    <input class="form-control" type="text" name="campground[location]" id="location" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+
+
+                <!-- Price input with Bootstrap input group for currency symbol -->
+                <div class="mb-2">
+                    <label class="form-label" for="price">Campground Price</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">$</span>
+                        <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
+                            aria-describedby="basic-addon1" name="campground[price]" required>
+                    </div>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+
+
+                <!-- Description textarea -->
+                <div class="mb-2">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" name="campground[description]" id="description" required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+
+
+                <!-- Image URL input -->
+                <div class="mb-3 custom-file">
+                    <label for="formFileMultiple custom-file" class="form-label">Upload Images</label>
+                    <!-- <input class="form-control" type="file" id="formFileMultiple" name="images" multiple required> -->
+                    <input class="form-control" type="file" id="images" name="images" multiple required>
+                </div>
+                <!-- <input type="file" name="image" id="" multiple> -->
+                <!-- <div class="mb-2">
+                    <label class="form-label" for="image">Image URL</label>
+                    <input class="form-control" type="text" name="campground[image]" id="image" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div> -->
+
+                <!-- Submit button -->
+                <div class="mb-3">
+                    <button class="btn btn-success btn-block w-100">Add Campground</button>
+                </div>
+
+            </form>
+
+            <!-- Link back to all campgrounds -->
+            <div class="text-center">
+                <a href="/campgrounds">Back to all campground</a>
+            </div>
+        </div>
+    </div>

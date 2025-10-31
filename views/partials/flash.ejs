@@ -1,0 +1,15 @@
+<% if (success && success.length) { %>
+    <!-- Bootstrap success alert for displaying success messages -->
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= success %> <!-- Display the success flash message -->
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (error && error.length) { %>
+    <!-- Bootstrap warning alert for displaying error messages -->
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <%= error %> <!-- Display the error flash message -->
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
